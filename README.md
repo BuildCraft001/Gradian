@@ -18,7 +18,7 @@ Gradian ist eine Web-App, die speziell für Schüler entwickelt wurde, um Noten 
 *   **🧮 Automatische Schnittberechnung:**
     *   Gradian berechnet automatisch den **Schnitt pro Fach**.
     *   Zusätzlich erhältst du deinen **Gesamtschnitt** über alle Fächer.
-*   ** Bayerisch optimiert:**
+*   **⚪️🔵 Bayerisch optimiert:**
     *   Die Notenberechnung ist an das **bayerische Gymnasialsystem** angepasst.
     *   Du kannst flexibel einstellen, ob Schulaufgaben in bestimmten Fächern doppelt gewichtet werden sollen oder nicht.
 *   **✏️ Einfache Datenverwaltung:**
