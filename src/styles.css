@@ -1,0 +1,469 @@
+:root {
+    /* Light Mode Defaults */
+    --bg-color: #f0f0f3; /* Sehr helles Grau, fast weiß */
+    --text-color: #1d1d1f; /* Apple's dunkles Textgrau */
+    --card-bg-color: #ffffff;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    --border-color: #d2d2d7;
+    --primary-accent-color: #007aff; /* Apple Blau */
+    --secondary-accent-color: #f0f0f3; /* Button Background */
+    --button-text-color: #1d1d1f;
+    --modal-overlay-color: rgba(0, 0, 0, 0.4);
+
+    --grade-1-bg: #d4edda; --grade-1-text: #155724; /* Hellgrün */
+    --grade-2-bg: #e2f0d9; --grade-2-text: #385c2a; /* Grün */
+    --grade-3-bg: #fff3cd; --grade-3-text: #856404; /* Gelb */
+    --grade-4-bg: #ffeeba; --grade-4-text: #855d0b; /* Orange-Gelb */
+    --grade-5-bg: #f8d7da; --grade-5-text: #721c24; /* Hellrot */
+    --grade-6-bg: #f5c6cb; --grade-6-text: #721c24; /* Rot */
+}
+
+[data-theme="dark"] {
+    --bg-color: #1c1c1e; /* Dunkles Grau */
+    --text-color: #f5f5f7; /* Fast weiß */
+    --card-bg-color: #2c2c2e; /* Etwas helleres Dunkelgrau */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    --border-color: #424245;
+    --primary-accent-color: #0a84ff; /* Helleres Apple Blau */
+    --secondary-accent-color: #3a3a3c;
+    --button-text-color: #f5f5f7;
+    --modal-overlay-color: rgba(0, 0, 0, 0.6);
+
+    --grade-1-bg: #1e4620; --grade-1-text: #a7d7a9;
+    --grade-2-bg: #2a5326; --grade-2-text: #b8e0b1;
+    --grade-3-bg: #5c4b0f; --grade-3-text: #ffe792;
+    --grade-4-bg: #6b4f0e; --grade-4-text: #ffd976;
+    --grade-5-bg: #6b2025; --grade-5-text: #f5b9bd;
+    --grade-6-bg: #5a161b; --grade-6-text: #f1aaaf;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: var(--card-bg-color);
+    box-shadow: var(--card-shadow);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.header-actions { /* Neues Div um die Buttons im Header */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Abstand zwischen den Buttons */
+}
+
+.header-actions .secondary-btn.small-btn, /* Für Export/Import Buttons */
+.header-actions #theme-toggle-btn {
+    padding: 8px 12px; /* Etwas kleiner als Haupt-Buttons */
+    font-size: 0.9rem;
+}
+
+.header-actions .secondary-btn.small-btn svg { /* SVG-Styling für IO-Buttons */
+    margin-right: 6px; /* Abstand zwischen Icon und Text */
+    vertical-align: middle; /* Bessere Ausrichtung mit Text */
+}
+
+/* Responsive Anpassung für den Header, falls nötig */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column; /* Bei wenig Platz: Titel oben, Aktionen unten */
+        align-items: flex-start;
+    }
+    header h1 {
+        margin-bottom: 10px;
+    }
+    .header-actions {
+        width: 100%;
+        justify-content: space-between; /* Verteilt die Buttons */
+    }
+}
+
+#theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#theme-toggle-btn:hover {
+    background-color: var(--secondary-accent-color);
+}
+#theme-toggle-btn svg {
+    stroke: var(--text-color);
+}
+.moon { display: none; }
+[data-theme="dark"] .sun { display: none; }
+[data-theme="dark"] .moon { display: block; }
+
+
+main {
+    flex-grow: 1;
+    padding: 30px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#overall-average-widget {
+    background-color: var(--card-bg-color);
+    border-radius: 16px; /* Etwas größere Rundung für ein "Widget"-Gefühl */
+    padding: 25px 30px;
+    margin-bottom: 35px; /* Guter Abstand zur Fächerliste */
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+#overall-average-widget:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.widget-title { /* Kann auch für andere zukünftige Widgets verwendet werden */
+    font-size: 1.1rem; /* Etwas kleiner als Fachnamen */
+    font-weight: 500;
+    color: var(--text-color);
+    opacity: 0.7; /* Subtiler */
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#overall-average-value { /* Das ist .average-display */
+    font-size: 3.8rem;
+    font-weight: 700; /* Sehr kräftig */
+    color: var(--text-color); /* Wird durch data-Attribut ggf. überschrieben */
+    line-height: 1.1;
+}
+
+#subjects-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Standardmäßig eine Spalte für Mobile */
+    gap: 25px;
+}
+
+/* Desktop Layout für Fächer nebeneinander, wenn breit genug */
+@media (min-width: 1000px) {
+    #subjects-container {
+         grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Flexibler */
+    }
+}
+
+
+.subject-field {
+    background-color: var(--card-bg-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.subject-field:hover {
+    box-shadow: var(--card-hover-shadow);
+}
+
+.subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.subject-name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    flex-grow: 1;
+    margin-right: 10px; /* Platz für Actions */
+}
+
+.subject-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.subject-average {
+    font-size: 2.5rem;
+    font-weight: 600;
+    min-width: 70px; /* Ensure space */
+    text-align: right;
+}
+
+.grade-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grade-category {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    display: flex; /* Neu: Für horizontale Anordnung */
+    align-items: center; /* Neu: Vertikale Zentrierung */
+    gap: 10px;
+}
+
+.category-title {
+    font-weight: 500;
+    min-width: 150px; /* Für gleichmäßige Ausrichtung der Notenlisten */
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.grades-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex-grow: 1; /* Nimmt verfügbaren Platz ein */
+}
+
+.grade {
+    display: inline-flex; /* Geändert für x-Button */
+    align-items: center;
+    justify-content: center;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    min-width: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    position: relative; /* Für den Lösch-Button */
+}
+
+.grade:hover, .grade:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.delete-grade-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    opacity: 0.5;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0 0 0 5px; /* Etwas Abstand zur Note */
+    cursor: pointer;
+    display: none; /* Standardmäßig unsichtbar */
+}
+
+.grade:hover .delete-grade-btn,
+.grade:focus-within .delete-grade-btn { /* Zeigt auch an, wenn Button gefokust ist */
+    display: inline-block;
+}
+
+.delete-grade-btn:hover {
+    opacity: 1;
+    color: #ff3b30; /* Apple Rot für Löschen */
+}
+
+
+/* Farben für Noten */
+.grade[data-grade-value^="1"], .subject-average[data-grade-value^="1"], #overall-average-value[data-grade-value^="1"] { background-color: var(--grade-1-bg); color: var(--grade-1-text); }
+.grade[data-grade-value^="2"], .subject-average[data-grade-value^="2"], #overall-average-value[data-grade-value^="2"] { background-color: var(--grade-2-bg); color: var(--grade-2-text); }
+.grade[data-grade-value^="3"], .subject-average[data-grade-value^="3"], #overall-average-value[data-grade-value^="3"] { background-color: var(--grade-3-bg); color: var(--grade-3-text); }
+.grade[data-grade-value^="4"], .subject-average[data-grade-value^="4"], #overall-average-value[data-grade-value^="4"] { background-color: var(--grade-4-bg); color: var(--grade-4-text); }
+.grade[data-grade-value^="5"], .subject-average[data-grade-value^="5"], #overall-average-value[data-grade-value^="5"] { background-color: var(--grade-5-bg); color: var(--grade-5-text); }
+.grade[data-grade-value^="6"], .subject-average[data-grade-value^="6"], #overall-average-value[data-grade-value^="6"] { background-color: var(--grade-6-bg); color: var(--grade-6-text); }
+
+/* Schnitt ohne farbigen Hintergrund, nur Textfarbe */
+.subject-average[data-grade-value^="1"], #overall-average-value[data-grade-value^="1"] { background-color: transparent; }
+.subject-average[data-grade-value^="2"], #overall-average-value[data-grade-value^="2"] { background-color: transparent; }
+.subject-average[data-grade-value^="3"], #overall-average-value[data-grade-value^="3"] { background-color: transparent; }
+.subject-average[data-grade-value^="4"], #overall-average-value[data-grade-value^="4"] { background-color: transparent; }
+.subject-average[data-grade-value^="5"], #overall-average-value[data-grade-value^="5"] { background-color: transparent; }
+.subject-average[data-grade-value^="6"], #overall-average-value[data-grade-value^="6"] { background-color: transparent; }
+.subject-average[data-grade-value="N/A"] { color: var(--text-color); opacity: 0.7; }
+
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+}
+
+#add-subject-btn {
+    margin-top: 30px;
+    font-size: 1rem;
+    width: 100%; /* Nimmt volle Breite im Hauptcontainer */
+    max-width: 300px; /* Aber nicht zu breit */
+    margin-left: auto;
+    margin-right: auto;
+    display: block; /* Um margin auto zu ermöglichen */
+    justify-content: center;
+}
+
+.small-icon-btn {
+    background: none;
+    border: 1px solid transparent;
+    color: var(--text-color);
+    opacity: 0.7;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.small-icon-btn:hover {
+    opacity: 1;
+    background-color: var(--secondary-accent-color);
+    border-color: var(--border-color);
+}
+.small-icon-btn svg {
+    stroke: currentColor;
+}
+
+.primary-btn {
+    background-color: var(--primary-accent-color);
+    color: white;
+}
+.primary-btn:hover {
+    background-color: color-mix(in srgb, var(--primary-accent-color) 90%, black);
+    box-shadow: 0 2px 8px rgba(0,122,255,0.3);
+}
+
+.secondary-btn {
+    background-color: var(--secondary-accent-color);
+    color: var(--button-text-color);
+    border: 1px solid var(--border-color);
+}
+.secondary-btn:hover {
+    background-color: color-mix(in srgb, var(--secondary-accent-color) 90%, var(--border-color));
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: var(--modal-overlay-color);
+    align-items: center;
+    justify-content: center;
+}
+.modal.active {
+    display: flex; /* Ändern von 'block' zu 'flex' für Zentrierung */
+}
+.modal-content {
+    background-color: var(--card-bg-color);
+    margin: auto;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalOpen 0.3s ease-out;
+}
+
+@keyframes modalOpen {
+    from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close-btn {
+    color: var(--text-color);
+    opacity: 0.6;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    line-height: 1;
+    cursor: pointer;
+}
+.modal-close-btn:hover {
+    opacity: 1;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+.modal-content input[type="number"]::-webkit-inner-spin-button,
+.modal-content input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.modal-content input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.modal-actions button {
+    padding: 10px 20px;
+}
+
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+}
